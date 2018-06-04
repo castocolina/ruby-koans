@@ -31,6 +31,31 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  score = 0
+  ones = dice.find_all { |item| item == 1 }.length
+  if ones >= 3
+    dice.delete_at(dice.index(1))
+    dice.delete_at(dice.index(1))
+    dice.delete_at(dice.index(1))
+    ones -= 3
+    score = 1000
+  end
+
+   (2..6).each { |xitem|
+    setof = dice.find_all { |item| item == xitem }.length
+    if setof >= 3
+      dice.delete_at(dice.index(xitem))
+      dice.delete_at(dice.index(xitem))
+      dice.delete_at(dice.index(xitem))
+      score = xitem * 100
+      break
+    end
+  }
+
+  fives = dice.find_all { |item| item == 5 }.length
+
+  score += (ones * 100)
+  score += (fives * 50)
 end
 
 class AboutScoringProject < Neo::Koan
